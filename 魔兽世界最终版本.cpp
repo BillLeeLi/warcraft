@@ -4,6 +4,7 @@ using namespace std;
 #include <limits.h>
 #include <vector>
 #include <math.h>
+#include <stdio.h>
 
 vector<string> weapons = {"sword", "bomb", "arrow"};
 unordered_map<string, int> warrior_hp;
@@ -27,7 +28,13 @@ public:
 class sword : public weapon
 {
 public:
-    sword(int s) : weapon(0, INT_MAX, s) {}
+    sword(int s) : weapon(0, INT_MAX, s)
+    {
+        if (s == 0)
+        {
+            usable = false;
+        }
+    }
     void attack(warrior *user, warrior *enemy);
 };
 class bomb : public weapon
@@ -436,6 +443,8 @@ void arrow::attack(warrior *user, warrior *enemy)
 
 int main()
 {
+    freopen("case17.txt", "w", stdout);
+
     scanf("%d", &t);
     for (int i = 1; i <= t; ++i)
     {
