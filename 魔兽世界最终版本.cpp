@@ -67,6 +67,7 @@ public:
     int init_pos;             // 初始位置
     bool reach_des = false;   // 是否到达了目的地(敌方司令部)
     double joy = 0.0;         // 士气值，只有dragon的士气是有用的
+    int loyalty = 0;          // 忠诚度，只有lion的忠诚度是有用的
 
 public:
     warrior(string hn, int n, string s) : head_name(hn), num(n), name(s), hp(warrior_hp[s]), force(warrior_sth[s]), weapons(vector<weapon *>(3, nullptr))
@@ -286,8 +287,10 @@ public:
 class lion : public warrior
 {
 public:
-    int loyalty;
-    lion(string hn, int n, int loy) : warrior(hn, n, "lion"), loyalty(loy) {}
+    lion(string hn, int n, int loy) : warrior(hn, n, "lion")
+    {
+        loyalty = loy;
+    }
     void escape(int time) override
     {
         if (reach_des)
@@ -299,14 +302,6 @@ public:
         {
             printf("%03d:05 %s lion %d ran away\n", time, head_name.c_str(), num);
             is_alive = false; // 为了方便将逃跑的看作死掉的
-        }
-    }
-    void attack(warrior *enemy, int time, int city_index) override
-    {
-        warrior::attack(enemy, time, city_index);
-        if (is_alive && enemy->is_alive)
-        {
-            loyalty -= K;
         }
     }
 };
@@ -750,13 +745,18 @@ int main()
                 }
 
                 // 战斗结束(至少一人存活)
-                // 士气变化并欢呼
+                // 士气和忠诚度变化并欢呼
                 if (war_r->is_alive)
                 {
                     if (war_b->is_alive)
+                    {
                         war_r->joy -= 0.2;
+                        war_r->loyalty -= K;
+                    }
                     else
+                    {
                         war_r->joy += 0.2;
+                    }
 
                     if (this_city.flag == 1 || (this_city.flag == 0 && i % 2 == 1))
                     {
@@ -765,11 +765,15 @@ int main()
                 }
                 if (war_b->is_alive)
                 {
-
                     if (war_r->is_alive)
+                    {
                         war_b->joy -= 0.2;
+                        war_b->loyalty -= K;
+                    }
                     else
+                    {
                         war_b->joy += 0.2;
+                    }
 
                     if (this_city.flag == 2 || (this_city.flag == 0 && i % 2 == 0))
                     {
