@@ -659,7 +659,7 @@ int main()
                         if ((war_r->weapons[0] != nullptr && war_r->force + war_r->weapons[0]->strength < war_b->hp) ||
                             (war_r->weapons[0] == nullptr && war_r->force < war_b->hp)) // 无法杀死对方
                         {
-                            if ((war_b->weapons[0] != nullptr && war_b->force / 2 + war_b->weapons[0]->strength >= war_r->hp) ||
+                            if (war_b->name != "ninja" && (war_b->weapons[0] != nullptr && war_b->force / 2 + war_b->weapons[0]->strength >= war_r->hp) ||
                                 (war_b->weapons[0] == nullptr && war_b->force / 2 >= war_r->hp)) // 会被对方反击杀死
                             {
                                 if (war_r->weapons[1] != nullptr)
@@ -687,7 +687,7 @@ int main()
                         if ((war_b->weapons[0] != nullptr && war_b->force + war_b->weapons[0]->strength < war_r->hp) ||
                             (war_b->weapons[0] == nullptr && war_b->force < war_r->hp)) // 无法杀死对方
                         {
-                            if ((war_r->weapons[0] != nullptr && war_r->force / 2 + war_r->weapons[0]->strength >= war_b->hp) ||
+                            if (war_r->name != "ninja" && (war_r->weapons[0] != nullptr && war_r->force / 2 + war_r->weapons[0]->strength >= war_b->hp) ||
                                 (war_r->weapons[0] == nullptr && war_r->force / 2 >= war_b->hp)) // 会被对方反击杀死
                             {
                                 if (war_b->weapons[1] != nullptr)
@@ -800,7 +800,7 @@ int main()
                     winners[i] = 2;
 
                     printf("%03d:40 blue %s %d earned %d elements for his headquarter\n", hours, war_b->name.c_str(),
-                           war_r->num, this_city.elements);
+                           war_b->num, this_city.elements);
 
                     // 插旗子
                     if (this_city.last_win == 2 && this_city.flag != 2)
